@@ -6,9 +6,9 @@ for i in 0..500
   r1=rand(0)>0.5?1:(-1)
   r2=rand(0)>0.5?1:(-1)
 
-  x=p[0]+i*rand(1000)*r1*r2
-  y=p[1]+i*rand(1000)*r1*r2
-  z=p[2]+i*rand(1000)
+  x=p[0]+i*rand(200)
+  y=p[1]+i*rand(20)*r1*r2
+  z=i*rand(100)
 
   #puts "x:#{x},y:#{y},z:#{z}"
   point = [x,y,z]
