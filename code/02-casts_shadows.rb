@@ -41,7 +41,11 @@ def createGridByHeight(_originPoint,_size,_grid)
        
     end
    # p _points
-    return _points
+    return {
+            "points"=>_points,
+            "xNum"=>_xNum,
+            "yNum"=>_yNum
+          }
 end
 
 
@@ -55,19 +59,36 @@ _grid={
   "width"=>100,
   "height"=>100
   }
-_height=3000
 _seed=12
+_height={
+  "x"=>1200,
+  "y"=>600
+  }
 
 #ruby里，哈希（Hash）是类似 "key" => "value" 这样的键值对集合。JS是Object对象，Python是字典，Objective-C也是叫字典。
 
 
-points=createGridByHeight(_originPoint,_size,_grid)
+pointsResult=createGridByHeight(_originPoint,_size,_grid)
 #p points
 
-points.each do |ps|
+currentRow=0
+
+
+for i in 0..(pointsResult["points"].length-1)
   #entities.add_cpoint p
+  ps=pointsResult["points"][i]
   face=entities.add_face(ps)
-  point2 = Geom::Point3d.new(0, 0, _height)
-  edge = entities.add_line(_originPoint, point2)
-  face.followme(edge)
+  
+  row=i/pointsResult["yNum"].floor+1
+  _z0="x"
+  if row!=currentRow
+    _z0="y"
+    currentRow=row
+  end
+  
+  _height[_z0]=_height[_z0]-_seed
+  
+   point2 = Geom::Point3d.new(0, 0, _height[_z0])
+   edge = entities.add_line(_originPoint, point2)
+   face.followme(edge)
 end
