@@ -1,8 +1,7 @@
 model = Sketchup.active_model
 entities = model.active_entities
 
-
-def createGridByHeight(_originPoint,_size,_grid)
+def createGrid(_originPoint,_size,_grid)
     _w=_size["width"]
     _h=_size["height"]
     _z=_originPoint[2]
@@ -48,9 +47,47 @@ def createGridByHeight(_originPoint,_size,_grid)
           }
 end
 
+def createHeights(_zMax,_xNum,_yNum)
+  
+  _res=[];
+  for i in 0..(_xNum-1)
+     #p i
+     zi=_zMax
+      for j in 0..(_yNum-1)
+        #p j
+        zi=zi-5
+        if zi<=0
+          zi=0
+        end
+        _res.push(zi)
+      end
+  
+      _zMax=_zMax-10
+  
+    if _zMax<=0
+      _zMax=0
+    end
+  
+  end
+  return _res
+  
+end
+
+def createBoxs(_ps,_zs)
+    for i in 0..(_ps.length-1)
+      #entities.add_cpoint p
+       ps=_ps[i]
+       face=entities.add_face(ps)
+  
+      # row=i/pointsResult["xNum"].floor+1
+
+       point2 = Geom::Point3d.new(0, 0, _zs[i])
+       edge = entities.add_line(_originPoint, point2)
+       face.followme(edge)
+    end
+end
 
 _originPoint=[0,0,0]
-
 _size={
   "width"=>6000,
   "height"=>3000
@@ -59,38 +96,15 @@ _grid={
   "width"=>100,
   "height"=>100
   }
-_seed=1
-_height={
-  "x"=>1200,
-  "y"=>600
-  }
+_zMax=200
 
 #ruby里，哈希（Hash）是类似 "key" => "value" 这样的键值对集合。JS是Object对象，Python是字典，Objective-C也是叫字典。
 
-
-pointsResult=createGridByHeight(_originPoint,_size,_grid)
+pointsResult=createGrid(_originPoint,_size,_grid)
 #p points
 
-currentRow=0
+_ps=pointsResult["points"]
+_zs=createHeights(_zMax,pointsResult["xNum"],pointsResult["yNum"])
+#p _zs
 
-
-for i in 0..(pointsResult["points"].length-1)
-  #entities.add_cpoint p
-  ps=pointsResult["points"][i]
-  face=entities.add_face(ps)
-  
-  row=i/pointsResult["xNum"].floor+1
-  _z0="x"
-  if row!=currentRow
-    _z0="y"
-    currentRow=row
-  end
-  
-   _height[_z0]=_height[_z0]-_seed
-   if _height[_z0]<=0
-     _height[_z0]=0
-   end
-   point2 = Geom::Point3d.new(0, 0, _height[_z0])
-   edge = entities.add_line(_originPoint, point2)
-   face.followme(edge)
-end
+createBoxs(_ps,_zs)
