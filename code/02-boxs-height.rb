@@ -73,7 +73,7 @@ def createHeights(_zMax,_xNum,_yNum)
   
 end
 
-def createBoxs(_ps,_zs)
+def createBoxs(entities,_originPoint,_ps,_zs)
     for i in 0..(_ps.length-1)
       #entities.add_cpoint p
        ps=_ps[i]
@@ -107,4 +107,4 @@ _ps=pointsResult["points"]
 _zs=createHeights(_zMax,pointsResult["xNum"],pointsResult["yNum"])
 #p _zs
 
-createBoxs(_ps,_zs)
+createBoxs(entities,_originPoint,_ps,_zs)
