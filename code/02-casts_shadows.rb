@@ -59,7 +59,7 @@ _grid={
   "width"=>100,
   "height"=>100
   }
-_seed=12
+_seed=1
 _height={
   "x"=>1200,
   "y"=>600
@@ -86,8 +86,10 @@ for i in 0..(pointsResult["points"].length-1)
     currentRow=row
   end
   
-  _height[_z0]=_height[_z0]-_seed
-  
+   _height[_z0]=_height[_z0]-_seed
+   if _height[_z0]<=0
+     _height[_z0]=0
+   end
    point2 = Geom::Point3d.new(0, 0, _height[_z0])
    edge = entities.add_line(_originPoint, point2)
    face.followme(edge)
