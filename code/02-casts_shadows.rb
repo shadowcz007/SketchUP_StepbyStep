@@ -79,7 +79,7 @@ for i in 0..(pointsResult["points"].length-1)
   ps=pointsResult["points"][i]
   face=entities.add_face(ps)
   
-  row=i/pointsResult["yNum"].floor+1
+  row=i/pointsResult["xNum"].floor+1
   _z0="x"
   if row!=currentRow
     _z0="y"
