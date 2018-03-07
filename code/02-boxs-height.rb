@@ -74,17 +74,25 @@ def createHeights(_zMax,_xNum,_yNum)
 end
 
 def createBoxs(entities,_originPoint,_ps,_zs)
+    # Add a group to the model.
+   
+  
     for i in 0..(_ps.length-1)
       #entities.add_cpoint p
        ps=_ps[i]
-       face=entities.add_face(ps)
+       
+       group = entities.add_group
+       face=group.entities.add_face(ps)
+       #face=entities.add_face(ps)
   
       # row=i/pointsResult["xNum"].floor+1
 
        point2 = Geom::Point3d.new(0, 0, _zs[i])
-       edge = entities.add_line(_originPoint, point2)
+       edge=group.entities.add_line(_originPoint, point2)
+       #edge = entities.add_line(_originPoint, point2)
        face.followme(edge)
     end
+    
 end
 
 _originPoint=[0,0,0]
