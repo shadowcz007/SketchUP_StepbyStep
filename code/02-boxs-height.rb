@@ -50,16 +50,17 @@ end
 def createHeights(_zMax,_xNum,_yNum)
   
   _res=[];
-  for i in 0..(_xNum-1)
+  for i in 0..(_xNum-2)
      #p i
      zi=_zMax
-      for j in 0..(_yNum-1)
-        #p j
+      for j in 0..(_yNum-2)
+        
         zi=zi-5
-        if zi<=0
-          zi=0
-        end
+      #  if zi<=0
+       #   zi=0
+       # end
         _res.push(zi)
+       # p [i,j,zi,_xNum,_yNum]
       end
   
       _zMax=_zMax-10
@@ -98,13 +99,13 @@ end
 _originPoint=[0,0,0]
 _size={
   "width"=>6000,
-  "height"=>3000
+  "height"=>6000
   }
 _grid={
   "width"=>100,
   "height"=>100
   }
-_zMax=200
+_zMax=1200
 
 #ruby里，哈希（Hash）是类似 "key" => "value" 这样的键值对集合。JS是Object对象，Python是字典，Objective-C也是叫字典。
 
@@ -114,5 +115,6 @@ pointsResult=createGrid(_originPoint,_size,_grid)
 _ps=pointsResult["points"]
 _zs=createHeights(_zMax,pointsResult["xNum"],pointsResult["yNum"])
 #p _zs
-
+#p _ps.length
+#p _zs.length
 createBoxs(entities,_originPoint,_ps,_zs)
