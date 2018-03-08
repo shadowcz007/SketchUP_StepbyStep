@@ -50,16 +50,30 @@ end
 def createHeights(_zMax,_xNum,_yNum)
   
   _res=[];
-  for i in 0..(_xNum-2)
+  _in=_xNum-2;
+  _jn=_yNum-2;
+  
+  for i in 0.._in
      #p i
      zi=_zMax
-      for j in 0..(_yNum-2)
+      for j in 0.._jn
         
         zi=zi-5
-      #  if zi<=0
-       #   zi=0
-       # end
-        _res.push(zi)
+        
+        #把zi保存到zi_res里，然后根据区域坐标，操作zi_res的值，最后保存zi_res的值，这样zi的值不受影响。
+        zi_res=zi
+        
+        if i>_in*0.1 && i<_in*0.3 && j>_jn*0.5 && j<_jn*0.6
+         # p [i,j,zi_res]
+          zi_res=Math.sin(rand(0..3))
+          p [i,j,zi_res]
+          
+        end
+        
+        if zi_res<=0
+          zi_res=0
+        end
+        _res.push(zi_res)
        # p [i,j,zi,_xNum,_yNum]
       end
   
@@ -117,4 +131,5 @@ _zs=createHeights(_zMax,pointsResult["xNum"],pointsResult["yNum"])
 #p _zs
 #p _ps.length
 #p _zs.length
+
 createBoxs(entities,_originPoint,_ps,_zs)
