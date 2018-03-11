@@ -56,7 +56,7 @@ def createHeights(_n)
   
   _res=[]
    
-  _np=2*Math::PI/_n
+  _np=5*Math::PI/_n
   
   for x in 1.._n
     y=Math.sin(x*_np)
@@ -83,6 +83,8 @@ def createBoxs(entities,_originPoint,_ps,_zs,_zMax)
        
        #exchange2=Math.sin(i*rand)
        
+       _base=200
+       
        ps.each do |p|
           group = entities.add_group
           face=group.entities.add_face(p)
@@ -99,7 +101,7 @@ def createBoxs(entities,_originPoint,_ps,_zs,_zMax)
           #h= _zs[exchange]
           
           # 4
-          h= (_zs[exchange])*_zMax+rand(100) 
+          h= ((_zs[exchange])*(_zMax-_base)+rand(100)).abs+_base 
         
           if h== nil
             h=0
@@ -108,7 +110,6 @@ def createBoxs(entities,_originPoint,_ps,_zs,_zMax)
           
           point2 = Geom::Point3d.new(0, 0, h)
           exchange=exchange+1
-          
           
           
           edge=group.entities.add_line(_originPoint, point2)
@@ -136,12 +137,12 @@ _grid={
   "width"=>300,
   "height"=>800
   }
-_zMax=800
+_zMax=1000
 
 
 pointsResult=createGrid(_originPoint,_size,_grid)
 #p pointsResult
  
-_zs=createHeights(2000)
+_zs=createHeights(1600)
 
 createBoxs(entities,_originPoint,pointsResult,_zs,_zMax)
