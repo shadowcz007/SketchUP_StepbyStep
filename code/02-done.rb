@@ -76,6 +76,39 @@ def createHeights(_peakValue,_parts)
 end
 
 
+def createBoxs(entities,_originPoint,_pointsResult,_zsOfRow,_zsOfColumn,_zMax)
+    _n=_pointsResult["row"]
+    exchange=0
+    
+    for i in 0..(_n-1)
+      #entities.add_cpoint p
+       ps=_pointsResult[i]
+      
+       _base=200
+       
+       ps.each do |p|
+          group = entities.add_group
+          face=group.entities.add_face(p)
+          
+          _r=_zsOfRow[i] ||0
+          _c=_zsOfColumn[exchange] || 0
+         
+          h= ((_r+_c)*(_zMax-_base)).abs+_base 
+        
+          point2 = Geom::Point3d.new(0, 0, h)
+          exchange=exchange+1
+          
+          edge=group.entities.add_line(_originPoint, point2)
+          face.followme(edge)
+          
+       end
+        
+    end
+    
+end
+
+
+
 _originPoint=[0,0,0]
 _size={
   "width"=>36000,
@@ -87,18 +120,18 @@ _grid={
   }
 _zMax=1000
 
-pointsResult=createGrid(_originPoint,_size,_grid)
+_pointsResult=createGrid(_originPoint,_size,_grid)
 
 _peakValueOfRow=3
-_partsOfRow=pointsResult["row"]
+_partsOfRow=_pointsResult["row"]
 
 _zsOfRow=createHeights(_peakValueOfRow,_partsOfRow)
 
 _peakValueOfColumn=0
-_partsOfColumn=pointsResult[0].length
+_partsOfColumn=_pointsResult[0].length
 _zsOfColumn=createHeights(_peakValueOfColumn,_partsOfColumn)
   
-  
+createBoxs(entities,_originPoint,_pointsResult,_zsOfRow,_zsOfColumn,_zMax)
 =begin
   for x in 0..(_zs.length-1)
      entities.add_cpoint [x,_zs[x],0]
